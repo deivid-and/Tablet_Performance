@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablet Performance Monitor</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var socket = io();
+
+            socket.on('connect', function() {
+                console.log('Connected to server');
+            });
+
+            socket.on('disconnect', function() {
+                console.log('Disconnected from server');
+            });
+
+            socket.on('device_list', function(data) {
+                const outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = ''; // Clear previous output
+                const message = document.createElement('p');
+                message.textContent = data.output;
+                outputDiv.appendChild(message);
+            });
+
+            function postAction(url) {
+                console.log(`Sending POST request to: ${url}`);
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache',
+                        'Expires': '0'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response received:', data);
+                    const outputDiv = document.getElementById('output');
+                    const message = document.createElement('p');
+                    message.className = data.status === 'success' ? 'success' : 'error';
+                    message.textContent = data.message;
+                    outputDiv.appendChild(message);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const outputDiv = document.getElementById('output');
+                    const message = document.createElement('p');
+                    message.className = 'error';
+                    message.textContent = 'An error occurred while executing the script.';
+                    outputDiv.appendChild(message);
+                });
+            }
+
+            document.querySelectorAll('button[data-action]').forEach(button => {
+                button.addEventListener('click', function() {
+                    postAction(button.getAttribute('data-action'));
+                });
+            });
+
+            document.getElementById('clearMessages').addEventListener('click', function() {
+                const outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = ''; // Clear all messages
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Tablet Performance Monitor</h1>
+    <div class="container">
+        <fieldset>
+            <legend>Cache Management</legend>
+            <button data-action="/clear_cache">Clear Cache</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>Optimization</legend>
+            <button data-action="/disable_bixby">Disable Bixby</button>
+            <button data-action="/disable_notes">Disable Notes</button>
+            <button data-action="/limit_background_processes">Limit Background Processes</button>
+            <button data-action="/turn_off_animations">Turn Off Animations</button>
+            <button data-action="/optimize_battery_usage">Optimize Battery Usage</button>
+            <button data-action="/set_performance_mode">Set Performance Mode</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>Other</legend>
+            <button data-action="/disable_keyboard">Disable Keyboard</button>
+            <button data-action="/list_devices">List Devices</button>
+        </fieldset>
+
+        <button id="clearMessages">Clear Messages</button>
+    </div>
+    <div id="output" class="output"></div>
+</body>
+</html>
