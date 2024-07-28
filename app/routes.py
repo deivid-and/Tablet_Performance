@@ -3,6 +3,7 @@ import os
 import logging
 from flask import Blueprint, render_template, jsonify, request
 from flask_socketio import emit
+import psutil
 from . import socketio
 
 logging.basicConfig(level=logging.DEBUG)
@@ -117,6 +118,42 @@ def turn_off_animations():
 def start_scrcpy():
     result = run_script('start_scrcpy.bat')
     return jsonify(result)
+
+@main.route('/metrics')
+def get_metrics():
+    battery = psutil.sensors_battery()
+    metrics = {
+        'cpu': {
+            'usage': psutil.cpu_percent(interval=1),
+            'top_process': get_top_process('cpu_percent')
+        },
+        'memory': {
+            'total': psutil.virtual_memory().total,
+            'used': psutil.virtual_memory().used,
+            'free': psutil.virtual_memory().free,
+            'top_process': get_top_process('memory_percent')
+        },
+        'disk': {
+            'read': psutil.disk_io_counters().read_bytes,
+            'write': psutil.disk_io_counters().write_bytes,
+            'top_process': get_top_process('io_counters')
+        },
+        'network': {
+            'sent': psutil.net_io_counters().bytes_sent,
+            'recv': psutil.net_io_counters().bytes_recv,
+            'top_process': get_top_process('io_counters')
+        },
+        'battery': {
+            'percentage': battery.percent if battery else "N/A",
+            'top_process': {'name': 'N/A', 'pid': 'N/A'}
+        }
+    }
+    return jsonify(metrics)
+
+def get_top_process(metric):
+    processes = [p.info for p in psutil.process_iter(['pid', 'name', metric])]
+    top_process = max(processes, key=lambda p: p.get(metric, 0), default={'name': 'N/A', 'pid': 'N/A'})
+    return top_process
 
 @socketio.on('connect')
 def handle_connect():
