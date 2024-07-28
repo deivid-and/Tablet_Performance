@@ -113,6 +113,11 @@ def turn_off_animations():
     logging.debug(f"Response for /turn_off_animations: {result}")
     return jsonify(result)
 
+@main.route('/start_scrcpy', methods=['POST'])
+def start_scrcpy():
+    result = run_script('start_scrcpy.bat')
+    return jsonify(result)
+
 @socketio.on('connect')
 def handle_connect():
     logging.debug('Client connected')
