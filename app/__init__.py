@@ -1,12 +1,9 @@
 from flask import Flask
-from flask_socketio import SocketIO
-
-socketio = SocketIO()
+from .routes import main
+from .extensions import socketio 
 
 def create_app():
-    app = Flask(__name__, template_folder='../templates')
-
-    from .routes import main
+    app = Flask(__name__)
     app.register_blueprint(main)
 
     socketio.init_app(app, cors_allowed_origins="*")

@@ -1,3 +1,7 @@
-Flask
-psutil
-flask-socketio
+Flask==2.0.2
+Flask-SocketIO==5.1.1
+gevent==21.8.0
+gevent-websocket==0.10.1
+werkzeug==2.0.3
+python-socketio==5.3.0
+python-engineio==4.2.0

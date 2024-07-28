@@ -1,11 +1,12 @@
-from flask import Flask
+from app import create_app
 from flask_socketio import SocketIO
-from app.routes import main
+import gevent.monkey
 
-app = Flask(__name__)
-socketio = SocketIO(app)
+gevent.monkey.patch_all()
 
-app.register_blueprint(main)
+app = create_app()
+
+socketio = SocketIO(app, async_mode='gevent')
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000)
