@@ -149,6 +149,11 @@ def disable_wifi():
     result = run_script('disable_wifi.bat')
     return jsonify(result)
 
+@main.route('/disable_bloatware', methods=['POST'])
+def disable_bloatware():
+    result = run_script('disable_bloatware.bat')
+    return jsonify(result)
+
 @main.route('/metrics')
 def get_metrics():
     battery = psutil.sensors_battery()
