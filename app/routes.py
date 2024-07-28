@@ -119,6 +119,36 @@ def start_scrcpy():
     result = run_script('start_scrcpy.bat')
     return jsonify(result)
 
+@main.route('/enable_high_performance', methods=['POST'])
+def enable_high_performance():
+    result = run_script('enable_high_performance.bat')
+    return jsonify(result)
+
+@main.route('/restore_default_settings', methods=['POST'])
+def restore_default_settings():
+    result = run_script('restore_default_settings.bat')
+    return jsonify(result)
+
+@main.route('/check_software_updates', methods=['POST'])
+def check_software_updates():
+    result = run_script('check_software_updates.bat')
+    return jsonify(result)
+
+@main.route('/enable_developer_options', methods=['POST'])
+def enable_developer_options():
+    result = run_script('enable_developer_options.bat')
+    return jsonify(result)
+
+@main.route('/enable_wifi', methods=['POST'])
+def enable_wifi():
+    result = run_script('enable_wifi.bat')
+    return jsonify(result)
+
+@main.route('/disable_wifi', methods=['POST'])
+def disable_wifi():
+    result = run_script('disable_wifi.bat')
+    return jsonify(result)
+
 @main.route('/metrics')
 def get_metrics():
     battery = psutil.sensors_battery()
