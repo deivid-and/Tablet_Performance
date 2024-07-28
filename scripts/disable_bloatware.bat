@@ -1,17 +1,25 @@
+@echo off
+REM Define ADB path
+set ADB_PATH=.\adb\adb.exe
+
+REM Disable unnecessary services
 echo Disabling additional bloatware...
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.calendar
-.\adb\adb.exe shell pm disable-user --user 0 com.sec.android.app.samsungapps
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.app.appsedge
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.mdx
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.bbc.bbcagent
-.\adb\adb.exe shell pm disable-user --user 0 com.sec.android.widgetapp.webmanual
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.app.routines
-.\adb\adb.exe shell pm disable-user --user 0 com.google.android.googlequicksearchbox
-.\adb\adb.exe shell pm disable-user --user 0 com.sec.android.easyMover
-.\adb\adb.exe shell pm disable-user --user 0 com.android.chrome
-.\adb\adb.exe shell pm disable-user --user 0 com.microsoft.skydrive
-.\adb\adb.exe shell pm disable-user --user 0 com.netflix.mediaclient
-.\adb\adb.exe shell pm disable-user --user 0 com.google.android.youtube
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.knox.containercore
-.\adb\adb.exe shell pm disable-user --user 0 com.samsung.android.mdx.kit
-echo Disabled unnecessary bloatware.
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.calendar
+%ADB_PATH% shell pm disable-user --user 0 com.sec.android.app.samsungapps
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.app.appsedge
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.mdx
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.bbc.bbcagent
+%ADB_PATH% shell pm disable-user --user 0 com.sec.android.widgetapp.webmanual
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.app.routines
+%ADB_PATH% shell pm disable-user --user 0 com.google.android.googlequicksearchbox
+%ADB_PATH% shell pm disable-user --user 0 com.sec.android.easyMover
+%ADB_PATH% shell pm disable-user --user 0 com.android.chrome
+%ADB_PATH% shell pm disable-user --user 0 com.microsoft.skydrive
+%ADB_PATH% shell pm disable-user --user 0 com.netflix.mediaclient
+%ADB_PATH% shell pm disable-user --user 0 com.google.android.youtube
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.knox.containercore
+%ADB_PATH% shell pm disable-user --user 0 com.samsung.android.mdx.kit
+%ADB_PATH% shell am force-stop com.android.chrome
+%ADB_PATH% shell pm disable com.android.chrome/.Main
+
+echo Disabled unnecessary bloatware and stopped Chrome process.
