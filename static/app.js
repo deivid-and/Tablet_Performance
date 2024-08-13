@@ -34,9 +34,9 @@ document.addEventListener("DOMContentLoaded", function() {
             showLoader(false);
             console.log('Response received:', data);
             const outputDiv = document.getElementById('output');
-            const message = document.createElement('p');
+            const message = document.createElement('pre'); // Use <pre> for preserving formatting
             message.className = data.status === 'success' ? 'success' : 'error';
-            message.textContent = data.message;
+            message.textContent = data.output; // Show the full output
             outputDiv.appendChild(message);
         })
         .catch(error => {
@@ -95,4 +95,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initial fetch of metrics
     fetchMetrics();
+
 });

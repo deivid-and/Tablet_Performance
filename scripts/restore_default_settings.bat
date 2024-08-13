@@ -8,8 +8,6 @@ adb shell settings put global transition_animation_scale 1
 adb shell settings put global animator_duration_scale 1
 adb shell settings put secure show_ime_with_hard_keyboard 1
 adb shell settings put secure disable_virtual_keyboard_if_hard_keyboard 0
-adb shell settings put global low_power 1
-adb shell settings put global power_save_mode_trigger 1
 adb shell pm enable --user 0 com.samsung.android.calendar
 adb shell pm enable --user 0 com.sec.android.app.samsungapps
 adb shell pm enable --user 0 com.samsung.android.app.appsedge

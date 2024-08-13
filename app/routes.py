@@ -1,7 +1,7 @@
 import subprocess
 import os
 import logging
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify
 from flask_socketio import emit
 import psutil
 from . import socketio
@@ -22,19 +22,19 @@ def run_script(script_name):
         result = subprocess.run(
             [script_path],
             capture_output=True, text=True, shell=True, check=True, cwd=os.path.dirname(script_path),
-            timeout=120,  # Increase the timeout to 2 minutes
+            timeout=120,
             env={**os.environ, 'PATH': os.path.join(os.getcwd(), 'scripts', 'adb') + os.pathsep + os.environ['PATH']}
         )
-        success_message = f"Script executed successfully. Output: {result.stdout}"
-        error_message = f"Script executed with errors. Error: {result.stderr}"
-        logging.debug(success_message if result.returncode == 0 else error_message)
-        return {
-            "status": "success" if result.returncode == 0 else "error",
-            "message": success_message if result.returncode == 0 else error_message,
-            "output": result.stdout if result.returncode == 0 else result.stderr
-        }
+        if result.returncode == 0:
+            success_message = f"Script executed successfully. Output: {result.stdout}"
+            logging.debug(success_message)
+            return {"status": "success", "message": success_message, "output": result.stdout}
+        else:
+            error_message = f"Script executed with errors. Error: {result.stderr}"
+            logging.debug(error_message)
+            return {"status": "error", "message": error_message, "output": result.stderr}
     except subprocess.TimeoutExpired:
-        error_msg = f"Script execution timed out."
+        error_msg = "Script execution timed out."
         logging.error(error_msg)
         return {"status": "error", "message": error_msg}
     except subprocess.CalledProcessError as e:
@@ -46,44 +46,85 @@ def run_script(script_name):
         logging.error(error_msg)
         return {"status": "error", "message": error_msg}
 
+# Route to serve the main page
 @main.route('/')
 def index():
     logging.debug("Serving index page.")
     return render_template('index.html')
 
-@main.route('/clear_cache', methods=['POST'])
-def clear_cache():
-    logging.debug("Received POST request for /clear_cache")
-    result = run_script('clear_cache.bat')
-    logging.debug(f"Response for /clear_cache: {result}")
+# Group: Disable Unnecessary Processes
+@main.route('/disable_google_bloatware', methods=['POST'])
+def disable_google_bloatware():
+    result = run_script('disable_google_bloatware.bat')
     return jsonify(result)
 
-@main.route('/disable_bixby', methods=['POST'])
-def disable_bixby():
-    logging.debug("Received POST request for /disable_bixby")
-    result = run_script('disable_bixby.bat')
-    logging.debug(f"Response for /disable_bixby: {result}")
+@main.route('/disable_samsung_bloatware', methods=['POST'])
+def disable_samsung_bloatware():
+    result = run_script('disable_samsung_bloatware.bat')
+    return jsonify(result)
+
+@main.route('/disable_misc_bloatware', methods=['POST'])
+def disable_misc_bloatware():
+    result = run_script('disable_misc_bloatware.bat')
     return jsonify(result)
 
 @main.route('/disable_keyboard', methods=['POST'])
 def disable_keyboard():
-    logging.debug("Received POST request for /disable_keyboard")
     result = run_script('disable_keyboard.bat')
-    logging.debug(f"Response for /disable_keyboard: {result}")
     return jsonify(result)
 
-@main.route('/disable_notes', methods=['POST'])
-def disable_notes():
-    logging.debug("Received POST request for /disable_notes")
-    result = run_script('disable_notes.bat')
-    logging.debug(f"Response for /disable_notes: {result}")
+# Group: Performance Optimization
+@main.route('/disable_power_saving', methods=['POST'])
+def disable_power_saving():
+    result = run_script('disable_power_saving.bat')
+    return jsonify(result)
+
+@main.route('/disable_battery_optimization', methods=['POST'])
+def disable_battery_optimization():
+    logging.debug("Received POST request for /disable_battery_optimization")
+    result = run_script('disable_battery_optimization.bat')
+    logging.debug(f"Response for /disable_battery_optimization: {result}")
+    return jsonify(result)
+
+@main.route('/set_cpu_governor_performance', methods=['POST'])
+def set_cpu_governor_performance():
+    result = run_script('set_cpu_governor_performance.bat')
+    return jsonify(result)
+
+@main.route('/turn_off_animations', methods=['POST'])
+def turn_off_animations():
+    result = run_script('turn_off_animations.bat')
     return jsonify(result)
 
 @main.route('/limit_background_processes', methods=['POST'])
 def limit_background_processes():
-    logging.debug("Received POST request for /limit_background_processes")
     result = run_script('limit_background_processes.bat')
-    logging.debug(f"Response for /limit_background_processes: {result}")
+    return jsonify(result)
+
+@main.route('/disable_background_data', methods=['POST'])
+def disable_background_data():
+    result = run_script('disable_background_data.bat')
+    return jsonify(result)
+
+@main.route('/boost_wifi_network', methods=['POST'])
+def boost_wifi_network():
+    result = run_script('boost_wifi_network.bat')
+    return jsonify(result)
+
+# Group: System Management
+@main.route('/clear_cache', methods=['POST'])
+def clear_cache():
+    result = run_script('clear_cache.bat')
+    return jsonify(result)
+
+@main.route('/restore_default_settings', methods=['POST'])
+def restore_default_settings():
+    result = run_script('restore_default_settings.bat')
+    return jsonify(result)
+
+@main.route('/enter_recovery_mode', methods=['POST'])
+def enter_recovery_mode():
+    result = run_script('enter_recovery_mode.bat')
     return jsonify(result)
 
 @main.route('/list_devices', methods=['POST'])
@@ -93,67 +134,7 @@ def list_devices():
     logging.debug(f"Response for /list_devices: {result}")
     return jsonify(result)
 
-@main.route('/optimize_battery_usage', methods=['POST'])
-def optimize_battery_usage():
-    logging.debug("Received POST request for /optimize_battery_usage")
-    result = run_script('optimize_battery_usage.bat')
-    logging.debug(f"Response for /optimize_battery_usage: {result}")
-    return jsonify(result)
-
-@main.route('/set_performance_mode', methods=['POST'])
-def set_performance_mode():
-    logging.debug("Received POST request for /set_performance_mode")
-    result = run_script('set_performance_mode.bat')
-    logging.debug(f"Response for /set_performance_mode: {result}")
-    return jsonify(result)
-
-@main.route('/turn_off_animations', methods=['POST'])
-def turn_off_animations():
-    logging.debug("Received POST request for /turn_off_animations")
-    result = run_script('turn_off_animations.bat')
-    logging.debug(f"Response for /turn_off_animations: {result}")
-    return jsonify(result)
-
-@main.route('/start_scrcpy', methods=['POST'])
-def start_scrcpy():
-    result = run_script('start_scrcpy.bat')
-    return jsonify(result)
-
-@main.route('/enable_high_performance', methods=['POST'])
-def enable_high_performance():
-    result = run_script('enable_high_performance.bat')
-    return jsonify(result)
-
-@main.route('/restore_default_settings', methods=['POST'])
-def restore_default_settings():
-    result = run_script('restore_default_settings.bat')
-    return jsonify(result)
-
-@main.route('/check_software_updates', methods=['POST'])
-def check_software_updates():
-    result = run_script('check_software_updates.bat')
-    return jsonify(result)
-
-@main.route('/enable_developer_options', methods=['POST'])
-def enable_developer_options():
-    result = run_script('enable_developer_options.bat')
-    return jsonify(result)
-
-@main.route('/enable_wifi', methods=['POST'])
-def enable_wifi():
-    result = run_script('enable_wifi.bat')
-    return jsonify(result)
-
-@main.route('/disable_wifi', methods=['POST'])
-def disable_wifi():
-    result = run_script('disable_wifi.bat')
-    return jsonify(result)
-
-@main.route('/disable_bloatware', methods=['POST'])
-def disable_bloatware():
-    result = run_script('disable_bloatware.bat')
-    return jsonify(result)
-
+# Metrics route for dashboard data
 @main.route('/metrics')
 def get_metrics():
     battery = psutil.sensors_battery()
