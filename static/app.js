@@ -50,16 +50,16 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function showLoader(show) {
-        const loader = document.getElementById('loader');
-        loader.style.display = show ? 'block' : 'none';
-    }
-
     document.querySelectorAll('button[data-action]').forEach(button => {
         button.addEventListener('click', function() {
             postAction(button.getAttribute('data-action'));
         });
     });
+    
+    function showLoader(show) {
+        const loader = document.getElementById('loader');
+        loader.style.display = show ? 'block' : 'none';
+    }
 
     document.getElementById('clearMessages').addEventListener('click', function() {
         const outputDiv = document.getElementById('output');

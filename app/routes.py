@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 main = Blueprint('main', __name__)
 
-def run_script(script_name):
+def run_script(script_name, async_run=False):
     script_path = os.path.join(os.getcwd(), 'scripts', script_name)
     if not os.path.exists(script_path):
         error_msg = f"Script not found: {script_path}"
@@ -19,20 +19,35 @@ def run_script(script_name):
     
     try:
         logging.debug(f"Running script at path: {script_path}")
-        result = subprocess.run(
-            [script_path],
-            capture_output=True, text=True, shell=True, check=True, cwd=os.path.dirname(script_path),
-            timeout=120,
-            env={**os.environ, 'PATH': os.path.join(os.getcwd(), 'scripts', 'adb') + os.pathsep + os.environ['PATH']}
-        )
-        if result.returncode == 0:
-            success_message = f"Script executed successfully. Output: {result.stdout}"
+        
+        if async_run:
+            # Run script asynchronously
+            subprocess.Popen(
+                [script_path],
+                shell=True,
+                cwd=os.path.dirname(script_path),
+                env={**os.environ, 'PATH': os.path.join(os.getcwd(), 'scripts', 'adb') + os.pathsep + os.environ['PATH']}
+            )
+            success_message = f"Script {script_name} started successfully in background."
             logging.debug(success_message)
-            return {"status": "success", "message": success_message, "output": result.stdout}
+            return {"status": "success", "message": success_message}
         else:
-            error_message = f"Script executed with errors. Error: {result.stderr}"
-            logging.debug(error_message)
-            return {"status": "error", "message": error_message, "output": result.stderr}
+            # Run script synchronously
+            result = subprocess.run(
+                [script_path],
+                capture_output=True, text=True, shell=True, check=True, cwd=os.path.dirname(script_path),
+                timeout=120,
+                env={**os.environ, 'PATH': os.path.join(os.getcwd(), 'scripts', 'adb') + os.pathsep + os.environ['PATH']}
+            )
+            if result.returncode == 0:
+                success_message = f"Script executed successfully. Output: {result.stdout}"
+                logging.debug(success_message)
+                return {"status": "success", "message": success_message, "output": result.stdout}
+            else:
+                error_message = f"Script executed with errors. Error: {result.stderr}"
+                logging.debug(error_message)
+                return {"status": "error", "message": error_message, "output": result.stderr}
+                
     except subprocess.TimeoutExpired:
         error_msg = "Script execution timed out."
         logging.error(error_msg)
@@ -132,6 +147,11 @@ def list_devices():
     logging.debug("Received POST request for /list_devices")
     result = run_script('list_devices.bat')
     logging.debug(f"Response for /list_devices: {result}")
+    return jsonify(result)
+
+@main.route('/start_scrcpy', methods=['POST'])
+def start_scrcpy():
+    result = run_script('start_scrcpy.bat', async_run=True)
     return jsonify(result)
 
 # Metrics route for dashboard data
