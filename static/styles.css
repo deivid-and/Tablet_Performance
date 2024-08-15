@@ -37,6 +37,22 @@ h1 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.recommendation {
+  background-color: #ffc107;
+  color: #343a40;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 90%;
+  text-align: center;
+}
+
+.recommendation p {
+  font-size: 1rem;
+  margin: 0;
+}
+
 .main-container {
   display: flex;
   justify-content: space-between;

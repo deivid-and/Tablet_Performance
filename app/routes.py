@@ -154,6 +154,63 @@ def start_scrcpy():
     result = run_script('start_scrcpy.bat', async_run=True)
     return jsonify(result)
 
+# Group: Enable Unnecessary Processes
+@main.route('/enable_google_bloatware', methods=['POST'])
+def enable_google_bloatware():
+    result = run_script('enable_google_bloatware.bat')
+    return jsonify(result)
+
+@main.route('/enable_samsung_bloatware', methods=['POST'])
+def enable_samsung_bloatware():
+    result = run_script('enable_samsung_bloatware.bat')
+    return jsonify(result)
+
+@main.route('/enable_misc_bloatware', methods=['POST'])
+def enable_misc_bloatware():
+    result = run_script('enable_misc_bloatware.bat')
+    return jsonify(result)
+
+@main.route('/enable_keyboard', methods=['POST'])
+def enable_keyboard():
+    result = run_script('enable_keyboard.bat')
+    return jsonify(result)
+
+# Group: Performance Optimization
+@main.route('/enable_power_saving', methods=['POST'])
+def enable_power_saving():
+    result = run_script('enable_power_saving.bat')
+    return jsonify(result)
+
+@main.route('/enable_battery_optimization', methods=['POST'])
+def enable_battery_optimization():
+    result = run_script('enable_battery_optimization.bat')
+    return jsonify(result)
+
+@main.route('/set_cpu_governor_balanced', methods=['POST'])
+def set_cpu_governor_balanced():
+    result = run_script('set_cpu_governor_balanced.bat')
+    return jsonify(result)
+
+@main.route('/turn_on_animations', methods=['POST'])
+def turn_on_animations():
+    result = run_script('turn_on_animations.bat')
+    return jsonify(result)
+
+@main.route('/unlimit_background_processes', methods=['POST'])
+def unlimit_background_processes():
+    result = run_script('unlimit_background_processes.bat')
+    return jsonify(result)
+
+# @main.route('/enable_background_data', methods=['POST'])
+# def enable_background_data():
+#     result = run_script('enable_background_data.bat')
+#     return jsonify(result)
+
+@main.route('/reset_wifi_network', methods=['POST'])
+def reset_wifi_network():
+    result = run_script('reset_wifi_network.bat')
+    return jsonify(result)
+
 # Metrics route for dashboard data
 @main.route('/metrics')
 def get_metrics():
