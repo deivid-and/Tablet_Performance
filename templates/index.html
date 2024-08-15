@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablet Performance Monitor</title>
+    <title>BoostMyTab</title>
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="/static/app.js"></script>
@@ -12,85 +12,178 @@
 
 <body>
     <div id="loader"></div>
-    <h1>Tablet Performance Monitor</h1>
-    <div id="dashboard" class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <h1>BoostMyTab</h1>
 
-    <div class="container">
-        <fieldset>
-            <legend>Disable Unnecessary Processes</legend>
-            <div class="tooltip">
-                <button data-action="/disable_google_bloatware">Disable Google Bloatware</button>
-                <span class="tooltiptext">Disables unnecessary Google apps to free up resources.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/disable_samsung_bloatware">Disable Samsung Bloatware</button>
-                <span class="tooltiptext">Disables Samsung apps that are not essential for GoMotive.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/disable_misc_bloatware">Disable Miscellaneous Bloatware</button>
-                <span class="tooltiptext">Disables other non-essential apps to optimize performance.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/disable_keyboard">Disable Keyboard</button>
-                <span class="tooltiptext">Disables the virtual keyboard if not needed.</span>
-            </div>
-        </fieldset>
+    <div class="main-container">
+        <div class="container control-panel">
+            <!-- Unnecessary Processes Section -->
+            <fieldset>
+                <legend>Manage Unnecessary Processes</legend>
+                <div class="button-group">
+                    <h3>Google Apps</h3>
+                    <button data-action="/disable_google_bloatware" class="disable-btn">
+                        Disable Google Bloatware
+                        <span class="tooltip">Disables unnecessary Google apps to free up resources.</span>
+                    </button>
+                    <button data-action="/enable_google_bloatware" class="enable-btn">
+                        Enable Google Bloatware
+                        <span class="tooltip">Re-enables disabled Google apps.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Samsung Apps</h3>
+                    <button data-action="/disable_samsung_bloatware" class="disable-btn">
+                        Disable Samsung Bloatware
+                        <span class="tooltip">Disables non-essential Samsung apps.</span>
+                    </button>
+                    <button data-action="/enable_samsung_bloatware" class="enable-btn">
+                        Enable Samsung Bloatware
+                        <span class="tooltip">Re-enables disabled Samsung apps.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Miscellaneous</h3>
+                    <button data-action="/disable_misc_bloatware" class="disable-btn">
+                        Disable Miscellaneous Bloatware
+                        <span class="tooltip">Disables other non-essential apps.</span>
+                    </button>
+                    <button data-action="/enable_misc_bloatware" class="enable-btn">
+                        Enable Miscellaneous Bloatware
+                        <span class="tooltip">Re-enables disabled miscellaneous apps.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Keyboard</h3>
+                    <button data-action="/disable_keyboard" class="disable-btn">
+                        Disable Keyboard
+                        <span class="tooltip">Disables the virtual keyboard if not needed.</span>
+                    </button>
+                    <button data-action="/enable_keyboard" class="enable-btn">
+                        Enable Keyboard
+                        <span class="tooltip">Re-enables the virtual keyboard.</span>
+                    </button>
+                </div>
+            </fieldset>
 
-        <fieldset>
-            <legend>Performance Optimization</legend>
-            <div class="tooltip">
-                <button data-action="/disable_power_saving">Disable Power Saving</button>
-                <span class="tooltiptext">Disables power saving mode to maximize performance.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/disable_battery_optimization">Disable Battery Optimization</button>
-                <span class="tooltiptext">Disables battery optimization to prevent app throttling.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/set_cpu_governor_performance">Set CPU Governor to Performance</button>
-                <span class="tooltiptext">Sets the CPU governor to performance mode for better speed.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/turn_off_animations">Turn Off Animations</button>
-                <span class="tooltiptext">Turns off UI animations to improve responsiveness.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/limit_background_processes">Limit Background Processes</button>
-                <span class="tooltiptext">Limits the number of background processes to free up memory.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/disable_background_data">Disable Background Data</button>
-                <span class="tooltiptext">Disables background data to save bandwidth and reduce latency.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/boost_wifi_network">Boost Wi-Fi & Network</button>
-                <span class="tooltiptext">Optimizes Wi-Fi settings for better network performance.</span>
-            </div>
-        </fieldset>
+            <!-- Performance Optimization Section -->
+            <fieldset>
+                <legend>Performance Optimization</legend>
+                <div class="button-group">
+                    <h3>Power & Battery</h3>
+                    <button data-action="/disable_power_saving" class="disable-btn">
+                        Disable Power Saving
+                        <span class="tooltip">Disables power saving mode to maximize performance.</span>
+                    </button>
+                    <button data-action="/enable_power_saving" class="enable-btn">
+                        Enable Power Saving
+                        <span class="tooltip">Re-enables power saving mode.</span>
+                    </button>
+                    <button data-action="/disable_battery_optimization" class="disable-btn">
+                        Disable Battery Optimization
+                        <span class="tooltip">Disables battery optimization to prevent app throttling.</span>
+                    </button>
+                    <button data-action="/enable_battery_optimization" class="enable-btn">
+                        Enable Battery Optimization
+                        <span class="tooltip">Re-enables battery optimization.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>CPU Management</h3>
+                    <button data-action="/set_cpu_governor_performance" class="disable-btn">
+                        Set CPU Governor to Performance
+                        <span class="tooltip">Sets the CPU governor to performance mode for better speed.</span>
+                    </button>
+                    <button data-action="/set_cpu_governor_balanced" class="enable-btn">
+                        Set CPU Governor to Balanced
+                        <span class="tooltip">Sets the CPU governor to balanced mode for power efficiency.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Animations</h3>
+                    <button data-action="/turn_off_animations" class="disable-btn">
+                        Turn Off Animations
+                        <span class="tooltip">Turns off UI animations to improve responsiveness.</span>
+                    </button>
+                    <button data-action="/turn_on_animations" class="enable-btn">
+                        Turn On Animations
+                        <span class="tooltip">Re-enables UI animations for a smoother experience.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Background Processes</h3>
+                    <button data-action="/limit_background_processes" class="disable-btn">
+                        Limit Background Processes
+                        <span class="tooltip">Limits background processes to free up memory.</span>
+                    </button>
+                    <button data-action="/unlimit_background_processes" class="enable-btn">
+                        Unlimit Background Processes
+                        <span class="tooltip">Allows unlimited background processes.</span>
+                    </button>
+                    <button data-action="/disable_background_data" class="disable-btn">
+                        Disable Background Data
+                        <span class="tooltip">Disables background data to save bandwidth.</span>
+                    </button>
+                    <button data-action="/enable_background_data" class="enable-btn">
+                        Enable Background Data
+                        <span class="tooltip">Re-enables background data for all apps.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Network Optimization</h3>
+                    <button data-action="/boost_wifi_network" class="disable-btn">
+                        Boost Wi-Fi & Network
+                        <span class="tooltip">Optimizes Wi-Fi settings for better network performance.</span>
+                    </button>
+                    <button data-action="/reset_wifi_network" class="enable-btn">
+                        Reset Wi-Fi & Network
+                        <span class="tooltip">Resets Wi-Fi settings to default.</span>
+                    </button>
+                </div>
+            </fieldset>
 
-        <fieldset>
-            <legend>System Management</legend>
-            <div class="tooltip">
-                <button data-action="/clear_cache">Clear Cache</button>
-                <span class="tooltiptext">Clears the cache of all apps to free up storage and improve speed.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/restore_default_settings">Restore Default Settings</button>
-                <span class="tooltiptext">Restores the tablet to default settings.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/enter_recovery_mode">Enter Recovery Mode</button>
-                <span class="tooltiptext">Reboots the tablet into recovery mode.</span>
-            </div>
-            <div class="tooltip">
-                <button data-action="/list_devices">List Connected Devices</button>
-                <span class="tooltiptext">Displays a list of all connected devices via ADB.</span>
-            </div>
-        </fieldset>
+            <!-- System Management Section -->
+            <fieldset>
+                <legend>System Management</legend>
+                <div class="button-group">
+                    <h3>Cache Management</h3>
+                    <button data-action="/clear_cache">
+                        Clear Cache
+                        <span class="tooltip">Clears the cache to free up storage and improve speed.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Recovery Mode</h3>
+                    <button data-action="/enter_recovery_mode">
+                        Enter Recovery Mode
+                        <span class="tooltip">Reboots the device into recovery mode.</span>
+                    </button>
+                </div>
+                <div class="button-group">
+                    <h3>Device Management</h3>
+                    <button data-action="/list_devices">List Connected Devices
+                        <span class="tooltip">Displays a list of connected devices via ADB.</span>
+                    </button>
+                </div>
+            </fieldset>
+        </div>
 
-        <button id="clearMessages">Clear Messages</button>
+        <!-- Connected Devices Section -->
+        <div class="container connected-devices">
+            <h2>Connected Devices</h2>
+            <div id="device-status" class="device-status">
+                <div class="status-icon">❌</div>
+                <div class="status-text">No Device Connected</div>
+            </div>
+        </div>
+
+        <!-- Output Messages Section -->
+        <div class="output-container">
+            <div id="output" class="output"></div>
+            <button id="clearMessages" class="danger">Clear Messages
+                <span class="tooltip">Clears all output messages.</span>
+            </button>
+        </div>
     </div>
-    <div id="output" class="output"></div>
 </body>
 
 </html>

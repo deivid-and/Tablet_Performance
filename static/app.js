@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     socket.on('device_list', function(data) {
-        const outputDiv = document.getElementById('output');
-        outputDiv.innerHTML = ''; // Clear previous output
+        const connectedDevicesDiv = document.getElementById('connectedDevices');
+        connectedDevicesDiv.innerHTML = '';
         const message = document.createElement('p');
         message.textContent = data.output;
-        outputDiv.appendChild(message);
+        connectedDevicesDiv.appendChild(message);
     });
 
     function postAction(url) {
@@ -66,34 +66,37 @@ document.addEventListener("DOMContentLoaded", function() {
         outputDiv.innerHTML = ''; // Clear all messages
     });
 
-    // Fetch and update metrics
-    function fetchMetrics() {
-        fetch('/metrics')
-            .then(response => response.json())
-            .then(data => updateDashboard(data))
-            .catch(error => console.error('Error fetching metrics:', error));
+    function fetchConnectedDevices() {
+        fetch('/list_devices', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const deviceStatusDiv = document.getElementById('device-status');
+            const statusIcon = deviceStatusDiv.querySelector('.status-icon');
+            const statusText = deviceStatusDiv.querySelector('.status-text');
+
+            if (data.output.includes("device") && data.output.trim().split('\n').length > 1) {
+                deviceStatusDiv.classList.add('connected');
+                statusIcon.textContent = '✅'; 
+                statusText.textContent = `Device Connected: ${data.output.split('\n')[1].trim()}`; // Display the device ID
+            } else {
+                deviceStatusDiv.classList.remove('connected');
+                statusIcon.textContent = '❌'; 
+                statusText.textContent = "No Device Connected";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching connected devices:', error);
+        });
     }
 
-    function updateDashboard(metrics) {
-        const dashboard = document.getElementById('dashboard');
-        dashboard.innerHTML = '';
+    // Fetch connected devices every 2 seconds
+    setInterval(fetchConnectedDevices, 2000);
 
-        for (const [key, value] of Object.entries(metrics)) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <h2>${key.toUpperCase()}</h2>
-                <p>Usage: ${value.usage || value.used || value.sent || value.percentage}%</p>
-                <p>Top Process: ${value.top_process.name} (PID: ${value.top_process.pid})</p>
-            `;
-            dashboard.appendChild(card);
-        }
-    }
-
-    // Fetch metrics every 10 seconds
-    setInterval(fetchMetrics, 10000);
-
-    // Initial fetch of metrics
-    fetchMetrics();
-
+    // Initial fetch of connected devices
+    fetchConnectedDevices();
 });

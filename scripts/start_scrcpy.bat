@@ -1,4 +1,4 @@
 @echo off
-cd /d C:\Users\Dale\Efficiency\scrcpy-win64-v2.5
+cd /d "%~dp0\..\scrcpy" 
 start scrcpy.exe --always-on-top
 echo Scrcpy has been started.

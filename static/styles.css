@@ -1,190 +1,307 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e9ecef;
-    color: #343a40;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    width: 100%;
-}
-
-h1 {
-    color: #0056b3;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.container {
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 90%;
-    margin-bottom: 10px;
-}
-
-fieldset {
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    padding: 5px;
-    margin-bottom: 10px;
-}
-
-legend {
-    padding: 0 10px;
-    font-weight: bold;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-button#clearMessages {
-    background-color: #dc3545;
-}
-
-button#clearMessages:hover {
-    background-color: #c82333;
-}
-
-.success {
-    color: green;
-    font-weight: bold;
-}
-
-.error {
-    color: red;
-    font-weight: bold;
-}
-
-.output {
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    margin-top: 10px;
-    min-height: 50px;
-}
-
-/* Dashboard styling */
-#dashboard {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-top: 10px;
-    width: 90%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  color: #343a40;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {
-    #dashboard {
-        grid-template-columns: 1fr 1fr;
-    }
+  body {
+    font-size: 15px;
+  }
 }
 
 @media (min-width: 1024px) {
-    #dashboard {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+  body {
+    font-size: 16px;
+  }
 }
 
-.card {
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+h1 {
+  color: #0056b3;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 2.3rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.card h2 {
-    font-size: 18px;
-    margin-bottom: 5px;
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90%;
+  margin-top: 20px;
 }
 
-.card p {
-    font-size: 14px;
-    margin: 5px 0;
+.control-panel {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  max-width: 700px;
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
+  margin-bottom: 20px;
+}
+
+fieldset {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+legend {
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0 10px;
+}
+
+.button-group {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.button-group h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+button {
+  background-color: #0056b3;
+  color: #ffffff;
+  border: none;
+  padding: 8px 15px;
+  margin: 10px 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  flex-basis: 48%;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  button {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  button {
+    font-size: 1rem;
+  }
+}
+
+.disable-btn {
+  background-color: #6c757d;
+}
+
+.disable-btn:hover {
+  background-color: #5a6268;
+}
+
+.enable-btn {
+  background-color: #28a745;
+}
+
+.enable-btn:hover {
+  background-color: #218838;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+button#clearMessages {
+  background-color: #ff073a;
+}
+
+button#clearMessages:hover {
+  background-color: #e63946;
+}
+
+.output-container {
+  width: 33%;
+  padding-left: 15px;
+}
+
+.output {
+  background-color: #e9ecef;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  font-family: "Courier New", Courier, monospace;
+  height: 350px;
+  overflow-y: auto;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }
 
 #loader {
-    display: none;
-    border: 8px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 8px solid #007bff;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  display: none;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #007bff;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  width: 180px;
+  background-color: #343a40;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  z-index: 100;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  white-space: normal;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Tooltip text */
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Position above the button */
-    left: 50%;
-    margin-left: -80px;
-    opacity: 0;
-    transition: opacity 0.3s;
+button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
-/* Tooltip arrow */
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%; /* Arrow on the bottom */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #343a40 transparent transparent transparent;
 }
 
-/* Show the tooltip text when hovering */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+body::-webkit-scrollbar {
+  width: 8px;
 }
 
+body::-webkit-scrollbar-track {
+  background: #f4f6f8;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 8px;
+}
+
+.connected-devices {
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  max-width: 280px;
+  text-align: center;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}
+
+.connected-devices h2 {
+  font-size: 1.6rem;
+  color: #0056b3;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.device-list {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.device-list p {
+  font-size: 0.875rem;
+  color: #343a40;
+  margin: 8px 0;
+}
+
+.device-status {
+  background-color: #ff073a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.device-status.connected {
+  background-color: #28a745;
+}
+
+.device-status .status-icon {
+  font-size: 1.75rem;
+  margin-bottom: 10px;
+}
+
+.device-status .status-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
